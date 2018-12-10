@@ -34,6 +34,7 @@ namespace RabbitMqBindings.RabbitMqMessage
 
         public Task FlushAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            _channel.Dispose();
             return Task.CompletedTask;
         }
     }
