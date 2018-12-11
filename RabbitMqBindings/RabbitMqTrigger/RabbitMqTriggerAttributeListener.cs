@@ -34,9 +34,16 @@ namespace RabbitMqBindings.RabbitMqTrigger
             consumer.Received += async (sender, e) =>
             {
                 var data = Encoding.UTF8.GetString(e.Body);
-                await _contextExecutor.TryExecuteAsync(new TriggeredFunctionData {TriggerValue = data},
+                var result = await _contextExecutor.TryExecuteAsync(new TriggeredFunctionData {TriggerValue = data},
                     cancellationToken);
-                _channel.BasicAck(e.DeliveryTag, false);
+                if (result.Succeeded)
+                {
+                    _channel.BasicAck(e.DeliveryTag, false);
+                }
+                else
+                {
+                    _channel.BasicNack(e.DeliveryTag, false, false);
+                }
             };
             _consumeTag = _channel.BasicConsume(_queueName, false, consumer);
             return Task.CompletedTask;
