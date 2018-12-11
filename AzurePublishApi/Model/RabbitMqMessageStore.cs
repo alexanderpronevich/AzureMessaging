@@ -24,19 +24,19 @@ namespace AzurePublishApi.Model
         public void PublishStageOneMessage(string message)
         {
             _logger.LogInformation("stage 1 message");
-            _channel.BasicPublish("stagedPublishExchange", "stage.one.message", _props,
+            _channel.BasicPublish("stagedPublishExchange", "stage.one.message", true, _props,
                 Encoding.UTF8.GetBytes(message));
         }
 
         public void PublishStageTwoMessage(string message)
         {
-            _channel.BasicPublish("stagedPublishExchange", "stage.two.message", _props,
+            _channel.BasicPublish("stagedPublishExchange", "stage.two.message", true, _props,
                 Encoding.UTF8.GetBytes(message));
         }
 
         public void PublishStageThreeMessage(string message)
         {
-            _channel.BasicPublish("stagedPublishExchange", "stage.three.message", _props,
+            _channel.BasicPublish("stagedPublishExchange", "stage.three.message", true, _props,
                 Encoding.UTF8.GetBytes(message));
         }
 
